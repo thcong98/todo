@@ -46,7 +46,7 @@ const handleRegister = () => {
       );
     return ( <div className="app">
     <div className="login-form">
-      <div className="title">Form</div>
+      
       {isSubmitted ? <div><Login/></div> : FormRegister}
     </div>
   </div>)

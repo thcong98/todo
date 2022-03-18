@@ -3,8 +3,14 @@ import Todo from "./Todo";
 import { useRef } from 'react';
 // import Register from "./Register";
 export default function Login() {
-
+  const [users, setUsers] = useState(() => {
+    const storageUsers = JSON.parse(localStorage.getItem('database'))
+    return storageUsers ?? []
+  })
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const [show, setShow] = useState(false)
+
   const password = useRef();
   const username = useRef();
   
@@ -23,19 +29,24 @@ export default function Login() {
   const handleSubmit = (event) => {
     //Prevent page reload
     event.preventDefault();
-
+    setShow(!show)
     // Find user login info
-    var i = database.find((f) => {
+    var i = users.find((f) => {
       return f.username ===username.current.value && f.password === password.current.value
     })
-    if(i!=null) {
+    var j = database.find((f) => {
+      return f.username ===username.current.value && f.password === password.current.value
+    })
+    if(i!=null || j!=null) {
       setIsSubmitted(true);
     }
     else {
-      console.log(i)
+ 
       setIsSubmitted(false);
     }
   };
+
+  
 
   // JSX code for login form
   const renderForm = (
@@ -44,13 +55,11 @@ export default function Login() {
       <h2>Đăng nhập</h2>
         <div className="input-container">
           <label>Username </label>
-          <input type="text" name="uname" ref={username}  required />
-         
+          <input type="text" name="uname" ref={username}  required />        
         </div>
         <div className="input-container">
           <label>Password </label>
-          <input type="password" name="pass" ref={password}  required />
-          
+          <input type="password" name="pass" ref={password}  required />     
         </div>
         <div className="button-container">
           <input type="submit" />
@@ -60,11 +69,8 @@ export default function Login() {
   );
 
   return (
-    <div className="app">
-      <div className="login-form">
-        <div className="title">Todo</div>
-        {isSubmitted ? <div><Todo/></div> : renderForm}
-      </div>
+    <div >  
+        {isSubmitted ? <div><Todo/></div> : <div>{renderForm }</div>}
     </div>
   );
 }
