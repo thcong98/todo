@@ -3,7 +3,7 @@ import Todo from "./Todo";
 import { useRef } from 'react';
 // import Register from "./Register";
 export default function Login() {
-    const [errorMessages, setErrorMessages] = useState({});
+
   const [isSubmitted, setIsSubmitted] = useState(false);
   const password = useRef();
   const username = useRef();
@@ -20,39 +20,22 @@ export default function Login() {
     }
   ];
 
-  const errors = {
-    uname: "invalid username",
-    pass: "invalid password"
-  };
-
   const handleSubmit = (event) => {
     //Prevent page reload
     event.preventDefault();
 
-    var { uname, pass } = document.forms[0];
-
     // Find user login info
-    const userData = database.find((user) => user.username === uname.value);
-
-    // Compare user info
-    if (userData) {
-      if (userData.password !== pass.value) {
-        // Invalid password
-        setErrorMessages({ name: "pass", message: errors.pass });
-      } else {
-        setIsSubmitted(true);
-      }
-    } else {
-      // Username not found
-      setErrorMessages({ name: "uname", message: errors.uname });
+    var i = database.find((f) => {
+      return f.username ===username.current.value && f.password === password.current.value
+    })
+    if(i!=null) {
+      setIsSubmitted(true);
+    }
+    else {
+      console.log(i)
+      setIsSubmitted(false);
     }
   };
-
-  // Generate JSX code for error message
-  const renderErrorMessage = (name) =>
-    name === errorMessages.name && (
-      <div className="error">{errorMessages.message}</div>
-    );
 
   // JSX code for login form
   const renderForm = (
@@ -62,12 +45,12 @@ export default function Login() {
         <div className="input-container">
           <label>Username </label>
           <input type="text" name="uname" ref={username}  required />
-          {renderErrorMessage("uname")}
+         
         </div>
         <div className="input-container">
           <label>Password </label>
           <input type="password" name="pass" ref={password}  required />
-          {renderErrorMessage("pass")}
+          
         </div>
         <div className="button-container">
           <input type="submit" />

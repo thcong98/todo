@@ -5,7 +5,7 @@ export default function Register() {
 
     const [isSubmitted, setIsSubmitted] = useState(false);
 const [users, setUsers] = useState(() => {
-    const storageUsers = JSON.parse(localStorage.getItem('Database'))
+    const storageUsers = JSON.parse(localStorage.getItem('database'))
     return storageUsers ?? []
     })
 const password = useRef();
@@ -16,7 +16,7 @@ const handleRegister = () => {
         setIsSubmitted(true);
         setUsers(prev => {
             const newUsers = [...prev,{username: username.current.value, password: password.current.value}]
-            localStorage.setItem('Database', JSON.stringify(newUsers))
+            localStorage.setItem('database', JSON.stringify(newUsers))
             return newUsers
         })
     }
