@@ -8,9 +8,12 @@ const [users, setUsers] = useState(() => {
     const storageUsers = JSON.parse(localStorage.getItem('database'))
     return storageUsers ?? []
     })
+
+    //tạo tham chiếu
 const password = useRef();
 const username = useRef();
 
+//tạo gửi dữ liệu đăng ký
 const handleRegister = () => {
     if(password.current.value !== null){
         setIsSubmitted(true);
@@ -29,14 +32,12 @@ const handleRegister = () => {
           <form onSubmit={handleRegister}>
           <h2>Đăng ký</h2>
             <div className="input-container">
-              <label>Username </label>
-              <input type="text" name="uname" ref={username} required />
-              {/* {renderErrorMessage("uname")} */}
+              <label>Tên đăng nhập </label>
+              <input type="text" name="uname" ref={username} required />  
             </div>
             <div className="input-container">
-              <label>Password </label>
-              <input type="password" name="pass" ref={password} required />
-              {/* {renderErrorMessage("pass")} */}
+              <label>Mật khẩu </label>
+              <input type="password" name="pass" ref={password} required />            
             </div>
             <div className="button-container">
               <input type="submit" />
@@ -44,9 +45,10 @@ const handleRegister = () => {
           </form>
         </div>
       );
+
+// đăng ký thành công chuyển sang trang đăng nhập
     return ( <div className="app">
-    <div className="login-form">
-      
+    <div className="login-form"> 
       {isSubmitted ? <div><Login/></div> : FormRegister}
     </div>
   </div>)

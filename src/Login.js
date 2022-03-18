@@ -3,14 +3,17 @@ import Todo from "./Todo";
 import { useRef } from 'react';
 // import Register from "./Register";
 export default function Login() {
+
+  // users ánh xạ database trên local storage
   const [users, setUsers] = useState(() => {
     const storageUsers = JSON.parse(localStorage.getItem('database'))
     return storageUsers ?? []
   })
+
+  //Khai báo trạng thái đăng nhập
   const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const [show, setShow] = useState(false)
-
+  const [errorMessages, setErrorMessages] = useState('');
+//tạo tham chiếu
   const password = useRef();
   const username = useRef();
   
@@ -29,20 +32,22 @@ export default function Login() {
   const handleSubmit = (event) => {
     //Prevent page reload
     event.preventDefault();
-    setShow(!show)
-    // Find user login info
+
+    // so sánh dữ liệu nhập vào và trên local storage
     var i = users.find((f) => {
       return f.username ===username.current.value && f.password === password.current.value
     })
+    // so sánh dữ liệu nhập vào và trong mảng database
     var j = database.find((f) => {
       return f.username ===username.current.value && f.password === password.current.value
     })
+    // đăng nhập thành công đổi trạng thái thành true
     if(i!=null || j!=null) {
       setIsSubmitted(true);
     }
     else {
- 
       setIsSubmitted(false);
+      setErrorMessages('tên đăng nhập hoặc mật khẩu sai');
     }
   };
 
@@ -54,20 +59,22 @@ export default function Login() {
       <form onSubmit={handleSubmit}>
       <h2>Đăng nhập</h2>
         <div className="input-container">
-          <label>Username </label>
+          <label>Tên đăng nhập</label>
           <input type="text" name="uname" ref={username}  required />        
         </div>
         <div className="input-container">
-          <label>Password </label>
+          <label>Mật khẩu </label>
           <input type="password" name="pass" ref={password}  required />     
         </div>
         <div className="button-container">
           <input type="submit" />
         </div>
+        {errorMessages}
       </form>
     </div>
   );
 
+  // Trả về function Todo trong Todo.js nếu đúng ngược lại reload page
   return (
     <div >  
         {isSubmitted ? <div><Todo/></div> : <div>{renderForm }</div>}

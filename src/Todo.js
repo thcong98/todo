@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import Login from './Login';
 export default function Todo() {
+    // trạng thái đăng xuất
     const [isLogout, setIsLogout] = useState(false);
 
+    // Dùng local storage để lưu danh sách 
     const [job,setJob] = useState('')
     const [jobs, setJobs] = useState(() => {
         const storageJobs = JSON.parse(localStorage.getItem('jobs'))
         return storageJobs
     })
-
+// xử lý khi nhập dữ liệu 
     const handleSubmit = () => {
         setJobs(prev => {
             const newJobs = [...prev, job]
@@ -17,15 +19,14 @@ export default function Todo() {
             return newJobs
         })
         setJob('')
-
-
     }
+
+    // Chuyển trạng thái đăng xuất 
     const Logout = () => {
-
         setIsLogout(true)
-
       }
     
+      // Lấy danh sách từ local storge
       const listToDo =(<div>
       <button onClick={Logout}>Đăng xuất</button>
       <h2>Danh sách việc làm</h2>
@@ -41,8 +42,7 @@ export default function Todo() {
         </div>
         )        
     return(
-        <div >
-        
+        <div >     
         {isLogout ? <div><Login/></div> : listToDo}      
         </div>
     )
